@@ -1,0 +1,173 @@
+.grid-view-loading
+{
+    background:url(loading.gif) no-repeat;
+}
+
+.grid-view table.items
+{
+    clear:left;
+    background: white;
+    width: 100%;
+    margin:0;
+}
+
+.grid-view table.items th, .grid-view table.items td
+{
+    font-size: 0.9em;
+    border-bottom: 1px white solid;
+}
+
+.grid-view table.items th
+{
+    background-color: #EEE;
+    text-shadow: none;
+    text-align: center;
+    border-bottom: 1px #338195 solid;
+    font-weight: bold;
+    color: #338195;
+}
+
+.grid-view table.items th a
+{
+
+    text-decoration: none;
+}
+
+.grid-view table.items th a.asc
+{
+    background:url(up.gif) right center no-repeat;
+    padding-right: 10px;
+}
+
+.grid-view table.items th a.desc
+{
+    background:url(down.gif) right center no-repeat;
+    padding-right: 10px;
+}
+
+.grid-view table.items tr.even
+{
+    background: #F8F8F8;
+}
+
+.grid-view table.items tr.odd
+{
+    background: #F0F0F0;
+}
+
+.grid-view table.items tr.selected
+{
+    background-color: #C4DFE6;
+    /*	text-shadow: 1px 1px 2px #BBB;*/
+}
+
+.grid-view table.items tr:hover
+{
+    background: #ECFBD4;
+}
+
+.grid-view .link-column img
+{
+    border: 0;
+}
+
+.grid-view .button-column
+{
+    text-align: center;
+    width: 75px;
+}
+
+.grid-view .button-column img
+{
+    border: 0;
+    margin: 0 1px;
+}
+
+.grid-view .no-update a.update
+{
+    display: none;
+}
+
+.grid-view .checkbox-column
+{
+    width: 15px;
+}
+
+.grid-view .summary
+{
+    padding: 5px 0;
+    float:left;
+    width:400px;
+}
+
+.grid-view .pager
+{
+    text-align: right;
+    margin-left:400px;
+    padding:3px;
+}
+
+.grid-view .extendedSelect
+{
+    margin-top: 2px;
+    text-align: center;
+}
+
+.grid-view .extendedSelect a , .grid-view .extendedSelect span
+{
+    font-size: 90%;
+}
+
+
+
+.grid-view .empty
+{
+    font-style: italic;
+}
+
+.grid-view .filters input,
+.grid-view .filters select
+{
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.grid-view table.items tr td.check
+{
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image:url('/images/icons/ui-check-box-uncheck.png');
+}
+
+.grid-view table.items tr.selected td.check
+{
+    background-image:url('/images/icons/ui-check-box.png');
+}
+
+.transparent *{
+    opacity:0.5;
+}
+
+.transparent *:hover{
+    opacity:1;
+}
+
+.Rescan {
+    opacity: 0.7;
+}
+
+.Delete {
+    opacity: 0.4;
+    color:red;
+}
+
+tr.Important td{
+    opacity: 1;
+    color:green;
+    font-weight:bold;
+}
+.idcol {
+    text-align: right;
+    font-weight: bold;
+}

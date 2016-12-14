@@ -1,0 +1,36 @@
+.installrow {
+    padding: 5px 7px;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    width: 500px;
+    margin: 5px auto;
+    color: #485961;
+    font-size:0.9em;
+}
+.installres {
+    text-align: right;
+}
+.installreq {
+    float: left;
+}
+.installerror {
+    color:red;
+    padding-right:24px;
+    background:url(../images/icons/cross.png) right no-repeat;
+}
+.installcontainer { 
+    width: 700px;
+    margin: 5px auto;
+}
+div.row label.instalabel {
+    display:inline-block;
+    width:250px;
+    text-align:right;
+    padding-right:5px;
+}
+.installcontainer h4 {
+    padding:15px 0 10px;
+    margin:0;
+    font-size:1.3em;
+    color:#333;
+}
