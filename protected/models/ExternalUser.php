@@ -20,6 +20,7 @@
  * @property string $rights_monthly_usr
  * @property string $rights_clean_usr
  * @property string $register_date_usr
+ * @property string $pgp_key_name_usr
  * @property string $last_login_date_usr
  */
 class ExternalUser extends CActiveRecord
@@ -76,19 +77,19 @@ class ExternalUser extends CActiveRecord
             array('name_usr, company_usr, email_usr, password_usr, verifyCode, confirm_password, public_pgp_key_usr', 'required', 'on' => 'register'),
             array('name_usr', 'length', 'max' => 60),
             array('name_usr', 'ext.alpha', 'allowNumbers' => true, 'extra' => array('-', '_')),
+			array('name_usr, company_usr, verifyCode, pgp_key_name_usr','filter','filter'=>array($obj=new CHtmlPurifier(),'purify')),
             array('password_usr, new_password', 'length', 'min' => 5),
             array('userStatus', 'safe', 'on' => 'search'),
             array('verifyCode', 'captcha', 'allowEmpty' => !Yii::app()->user->isGuest, 'on' => 'register'),
             array('confirm_password', 'compare', 'compareAttribute' => 'password_usr', 'on' => 'register'),
             array('confirm_new_password', 'compare', 'compareAttribute' => 'new_password', 'on' => 'update'),
             array('confirm_new_password', 'compare', 'compareAttribute' => 'new_password', 'on' => 'edit_profile'),
-            array('new_password,public_pgp_key_usr', 'safe', 'on' => 'update'),
+            array('new_password,public_pgp_key_usr, pgp_key_name_usr', 'safe', 'on' => 'update'),
             array('limitation_date_usr, rights_daily_usr, rights_monthly_usr, rights_clean_usr, rights_url_usr', 'safe', 'on' => 'update'),
             array('company_usr, email_usr', 'length', 'max' => 80),
             array('public_pgp_key_usr', 'check_pgp_key'),
-            array('email_usr', 'email', 'on' => 'register'),
-            array('name_usr', 'unique', 'on' => 'register'),
-            array('email_usr', 'unique', 'on' => 'register'),
+            array('email_usr', 'email'),
+            array('name_usr, email_usr', 'unique'),
             array('old_password, new_password, confirm_new_password', 'safe', 'on' => 'edit_profile'),
             array('name_usr, company_usr, email_usr, public_pgp_key_usr', 'required', 'on' => 'edit_profile'),
             array('old_password', 'check_old_pass', 'on' => 'edit_profile')

@@ -37,7 +37,7 @@
     </div>
     <?php
     if ($success) {
-        echo "<script>alert('An email has been send to your addres! Follow the link in order to reset your password.');</script>";
+        echo "<script>alert('Thank you for your request! If you have a valid account, an email has been sent to your address! Follow the link in order to reset your password.');</script>";
     }
     ?>
 <?php } elseif ($step == 1) { // send the new password  ?>

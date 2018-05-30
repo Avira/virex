@@ -265,6 +265,9 @@ class SiteController extends Controller
     //The reset password page
     public function actionResetpassword($code = false)
     {
+		error_reporting(E_ALL);
+		ini_set('display_errors', 1);
+		
         if (!Yii::app()->user->isGuest) {
             if (Yii::app()->user->type == 'Internal') {
                 $this->redirect(array('manage/index'));
@@ -273,6 +276,7 @@ class SiteController extends Controller
             }
         }
         $success = false;
+		$reset = 0;
         $step = 0; // ask for email
         if ($code) {
             $step = 1;
@@ -289,12 +293,17 @@ class SiteController extends Controller
             // collect user input data
             if (isset($_POST['ResetpasswordForm'])) {
                 $model->attributes = $_POST['ResetpasswordForm'];
+				
                 // validate user input and redirect to the previous page if valid
                 if ($model->validate()) {
+					
                     $success = true;
-                    $model->reset();
+                    if($model->reset()){
+						$reset = 1;
+					}
                 }
             }
+			
             // display the login form
         } else {
             $c = explode(';', $code);
@@ -308,9 +317,13 @@ class SiteController extends Controller
                 $user = ExternalUser::model()->findByPk($id);
                 if ($user) {
                     if ($code == $user->email_code_usr) {
+						$rands = '';
+						for ($i = 0; $i < 8; $i++){
+							$rands .= chr(rand(97, 122));
+						}
                         $success = true;
                         $name = $user->name_usr;
-                        $password = substr(md5(date('Y-m-d H:i:s')), 0, 8);
+                        $password = substr(md5($rands), 0, 8);
                         $user->password_usr = $user->passwordHash($password);
                         ExternalUserHistory::addLog('Password reseted!', $user->id_usr);
                         $user->save();
@@ -322,9 +335,13 @@ class SiteController extends Controller
                 $user = InternalUser::model()->findByPk($id);
                 if ($user) {
                     if ($code == md5($user->fname_uin . $user->password_uin)) {
-                        $success = true;
+                        $rands = '';
+						for ($i = 0; $i < 8; $i++){
+							$rands .= chr(rand(97, 122));
+						}
+						$success = true;
                         $name = $user->fname_uin;
-                        $password = substr(md5(date('Y-m-d H:i:s')), 0, 8);
+                        $password = substr(md5($rands), 0, 8);
                         $user->password_uin = $user->passwordHash($password);
                         $user->save();
                         $email = $user->email_uin;
@@ -335,7 +352,7 @@ class SiteController extends Controller
                 ResetpasswordForm::send_second_email($name, $password, $email, $external);
             }
         }
-        $this->render('resetpassword', array('step' => $step, 'model' => $model, 'success' => $success));
+        $this->render('resetpassword', array('step' => $step, 'model' => $model, 'success' => $success, 'reset'=>$reset));
     }
 
     //Method used to re-send the activation confirmation link

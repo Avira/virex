@@ -67,12 +67,13 @@ class InternalUser extends CActiveRecord
         return array(
             array('fname_uin, lname_uin, email_uin', 'required'),
             array('fname_uin, lname_uin, email_uin', 'length', 'max' => 50),
+			array('fname_uin,lname_uin','filter','filter'=>array($obj=new CHtmlPurifier(),'purify')),
             array('enabled_uin, notification_pgp_error_uin, notification_undetected_samples_uin, notification_new_account_request_uin', 'length', 'max' => 1),
             array('new_password', 'length', 'min' => 5, 'on' => 'update'),
             array('new_password, confirm_new_password, old_password', 'safe', 'on' => 'update'),
             array('confirm_new_password', 'compare', 'compareAttribute' => 'new_password', 'on' => 'update'),
-            array('email_uin', 'email', 'on' => 'register'),
-            array('email_uin', 'unique', 'on' => 'register'),
+            array('email_uin', 'email'),
+            array('email_uin', 'unique'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id_uin, fname_uin, lname_uin, email_uin, enabled_uin, password_uin, register_date_uin, register_by_uin, last_login_date_uin, notification_pgp_error_uin, notification_undetected_samples_uin, notification_new_account_request_uin', 'safe', 'on' => 'search'),

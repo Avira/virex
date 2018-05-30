@@ -25,8 +25,8 @@ class ResetpasswordForm extends CFormModel
     {
         return array(
             // username and password are required
-            array('username', 'required'),
-            array('username', 'exists')
+            array('username', 'required')
+            //array('username', 'exists')
         );
     }
 
@@ -73,11 +73,16 @@ class ResetpasswordForm extends CFormModel
             $user = InternalUser::model()->findByAttributes(array('email_uin' => $this->username));
             if ($user === NULL) {
                 // no user found
+				return false;
             }
             $external = false;
         }
         if ($external) {
-            $user->email_code_usr = md5(date('Y-m-d H:i:s') . self::SALT);
+			$rands = '';
+			for ($i = 0; $i < 8; $i++){
+				$rands .= chr(rand(97, 122));
+			}
+            $user->email_code_usr = md5($rands . self::SALT);
             $user->save();
             ExternalUserHistory::addLog('Requested password reset!', $user->id_usr);
             $md5 = $user->id_usr . 'e;' . $user->email_code_usr;
@@ -87,8 +92,10 @@ class ResetpasswordForm extends CFormModel
             $md5 = $user->id_uin . 'i;' . md5($user->fname_uin . $user->password_uin);
             $name = $user->fname_uin;
             $email = $user->email_uin;
+			
         }
         ResetpasswordForm::send_first_email($md5, $name, $email, $external);
+		return true;
     }
 
     public static function send_first_email($md5, $name, $email, $external = false)

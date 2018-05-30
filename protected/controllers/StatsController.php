@@ -90,8 +90,12 @@ class StatsController extends Controller
                 $labels = $this->rangeDates($form->start . ' 00:00:00', $form->end . ' 23:59:59', $form->group);
             }
         }
+		$varsArr = array();
+		$varsArr[] = $form->start . ' 00:00:00';
+		$varsArr[] = $form->end . ' 23:59:59';
         if ((int) $form->user) {
-            $condition = 'id_usr = ' . $form->user;
+            $condition = 'id_usr = ?';
+			$varsArr[] = $form->user;
             $join = 'LEFT JOIN external_users_usr ON id_usr = idusr_psu';
         }
         foreach ($columns as $col) {
@@ -105,7 +109,7 @@ class StatsController extends Controller
 					(date_psu BETWEEN ? AND ?) AND
 					" . $condition . "
                 GROUP BY " . $group;
-        $ds = Yii::app()->db->createCommand($q)->queryAll(true, array($form->start . ' 00:00:00', $form->end . ' 23:59:59'));
+        $ds = Yii::app()->db->createCommand($q)->queryAll(true, $varsArr);
         $stepsize = 1;
         foreach ($ds as $d) {
             foreach ($columns as $col) {

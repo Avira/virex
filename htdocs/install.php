@@ -1,24 +1,15 @@
 <?php
-/*
- * @copyright Copyright (c) 2016, Avira Operations GmbH & Co. KG ~ http://www.avira.com/
- * @author Avira <virex@avira.com>
- * 
- * The installation page 
- * 
- */
 
 define('VIREX_APP_PATH', realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'));
 define('VIREX_CONFIG_PATH', VIREX_APP_PATH . '/protected/config/config.inc.php');
 if (is_file(VIREX_CONFIG_PATH)) {
-    require_once(VIREX_CONFIG_PATH);
+	die('Seems that the application is already installed! For a new installation, please remove the configuration file.');
 }
 
-if (!defined('VIREX_PASSWORD_SALT')) {
+if (!defined('VIREX_PASSWORD_SALT'))
     define('VIREX_PASSWORD_SALT', 'dh8ivpicmu5sosowrew4terekam9apefe');
-}
 
-function mainUrl()
-{
+function mainUrl() {
     $s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
     $protocol = substr(strtolower($_SERVER["SERVER_PROTOCOL"]), 0, strpos(strtolower($_SERVER["SERVER_PROTOCOL"]), "/")) . $s;
     $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER["SERVER_PORT"]);
@@ -80,10 +71,17 @@ if (!is_dir($incoming)) {
 if (!is_dir($storage)) {
     $errors[] = 'The storage path does not exist and could not be created: ' . $storage;
 }
-$dbConn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
-if (mysqli_connect_errno()) {
-    $errors[] = 'MySQL error: ' . mysqli_connect_error();
+if (@mysql_connect($dbhost, $dbuser, $dbpass)) {
+    if (@mysql_select_db($dbname)) {
+        if(mysql_list_tables($dbname)){
+			$errors[] = 'The database already contains tables: ' . $dbname;
+		}
+    } else {
+        $errors[] = 'Invalid database: ' . $dbname;
+    }
+} else {
+    $errors[] = 'Cannot connect to MySQL on: ' . $dbhost;
 }
 
 $status = 'new';
@@ -94,12 +92,11 @@ if (!isset($errors[0])) {
         $sqls = explode(';', file_get_contents(VIREX_APP_PATH . '/protected/data/virex.sql'));
         foreach ($sqls as $query) {
             $query = trim($query);
-            if ($query) {
-                mysqli_query($dbConn, $query);
-            }
+            if ($query)
+                mysql_query($query);
         }
         if ($eadmin && $epass) {
-            mysqli_query($dbConn, "INSERT IGNORE INTO internal_users_uin (fname_uin, lname_uin, email_uin, enabled_uin, password_uin, register_date_uin) 
+            mysql_query("INSERT IGNORE INTO internal_users_uin (fname_uin, lname_uin, email_uin, enabled_uin, password_uin, register_date_uin) 
                     VALUES ('Virex', 'Admin', '{$eadmin}', 1, '" . md5(VIREX_PASSWORD_SALT . $epass) . "', NOW())");
         } else {
             $errors[] = 'Invalid admin account or password: ' . $eadmin;
@@ -355,7 +352,7 @@ define('VIREX_PASSWORD_SALT', '" . VIREX_PASSWORD_SALT . "');
                                     <div>The following configuration was written in: <b><?php echo VIREX_CONFIG_PATH; ?></b></div>
                                     <pre style="font-size:0.8em;"><?php highlight_string($confContent); ?></pre>
                                     <div class="row buttons" style="text-align:center;">
-                                        <input type="button" name="done" value="Done" onclick="document.location = '?r=<?php echo rand(10000, 99999); ?>';" />		
+                                        <input type="button" name="done" value="Done" onclick="document.location='?r=<?php echo rand(10000, 99999); ?>';" />		
                                     </div>
                                 <?php } ?>
                                 <?php if ($status == 'writeconfig') { ?>

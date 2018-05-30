@@ -27,11 +27,11 @@ if ($afterDownload) {
 } else {
     ?>
     <div class="form wide">
-        <form method="post"><br />
+        <?php echo CHtml::beginForm(); ?><br />
             <label style="width:300px;line-height:34px;">For security reasons please insert your password:</label>
             <input type="password" name="password" value="" autocomplete="off" />
             <input type="submit" name="download" value="Download" /><br />
-        </form>
+        <?php echo CHtml::endForm(); ?>
     </div>
 <?php
 }

@@ -21,7 +21,7 @@ $this->headlineText = 'URLs'; ?>
 </a>
 
 <div class="form" style="display:none;">
-    <form method="post">
+    <?php echo CHtml::beginForm(); ?>
         Time frame:
         <?php
         echo Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
@@ -47,7 +47,7 @@ $this->headlineText = 'URLs'; ?>
         ?>
         <input type="submit" name="interval" value="Apply" />
         <input type="submit" name="interval_reset" value="Reset" />
-    </form>
+    <?php echo CHtml::endForm(); ?>
 </div>
 <br />
 <script>

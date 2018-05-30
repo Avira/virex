@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `user_files_usf` (
   `date_usf` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `count_usf` int(2) unsigned NOT NULL,
   `idusr_usf` int(10) unsigned NOT NULL,
-  `file_size_usf` int(10) unsigned NOT NULL,
+  `file_size_usf` bigint(11) unsigned NOT NULL,
   PRIMARY KEY (`id_usf`),
   KEY `ListId` (`idusl_usf`),
   KEY `idusr_usf` (`idusr_usf`),

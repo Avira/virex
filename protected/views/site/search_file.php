@@ -12,10 +12,10 @@ $this->headlineText = 'Search samples';
         <tr>
             <td style='width:50%;'>
                 <h2 style='border-bottom:1px solid #8f8f8f;'>Search by hash</h2>
-                <form method='post'>
+				<?php echo CHtml::beginForm(); ?>
                     <input type='text' style="width:280px;" name='search_hash' />
                     <input type='submit' value='Get File' />
-                </form>
+                <?php echo CHtml::endForm(); ?>
             </td>
         </tr>
     </table>

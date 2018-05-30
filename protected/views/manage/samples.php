@@ -18,7 +18,7 @@ $this->headlineText = ($status == 'pending' ? 'New' : ucwords($status)) . ' Samp
 </a>
 
 <div class="form" style="display:none;">
-    <form method="post">
+    <?php echo CHtml::beginForm(); ?>
         Time frame:
         <?php
         echo Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
@@ -50,7 +50,7 @@ $this->headlineText = ($status == 'pending' ? 'New' : ucwords($status)) . ' Samp
         ?>
         <input type="submit" name="interval" value="Apply" />
         <input type="submit" name="interval_reset" value="Reset" />
-    </form>
+    <?php echo CHtml::endForm(); ?>
 </div>
 <br />
 <?php if ($status == 'detected') { ?>
