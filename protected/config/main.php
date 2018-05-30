@@ -41,6 +41,15 @@ $config = array(
             // enable cookie-based authentication
             'allowAutoLogin' => false,
         ),
+		'request' => array(
+            'enableCsrfValidation' => true,
+            'enableCookieValidation' => true,
+            'class' => 'HttpRequest',
+            'noCsrfValidationRoutes' => array('server/'),
+            'csrfCookie' => array(
+                'httpOnly' => true,
+            ),
+        ),
         // uncomment the following to enable URLs in path-format
         'urlManager' => array(
             'urlFormat' => 'path',
